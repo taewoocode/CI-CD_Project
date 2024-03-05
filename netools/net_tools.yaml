@@ -1,0 +1,24 @@
+--- 
+- name: Install and deploy Nginx 
+  hosts: demo[0:1]
+  user: ansible
+  become: yes
+  connection: ssh
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Deploy Nginx configuration file
+      copy:
+        src: /path/to/your/nginx.conf
+        dest: /etc/nginx/nginx.conf
+      notify: Restart Nginx
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted

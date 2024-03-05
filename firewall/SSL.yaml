@@ -1,0 +1,10 @@
+# ssl_cert.yml
+- hosts: workers
+  tasks:
+    - name: Install certbot
+      apt:
+        name: certbot
+        state: present
+
+    - name: Obtain SSL certificate
+      shell: certbot certonly --standalone -d example.com --agree-tos

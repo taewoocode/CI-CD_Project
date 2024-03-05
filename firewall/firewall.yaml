@@ -1,0 +1,19 @@
+---
+- hosts: workers
+  tasks:
+    - name: Install iptables-persistent
+      apt:
+        name: iptables-persistent
+        state: present
+
+    - name: Configure iptables
+      iptables:
+        chain: INPUT
+        protocol: tcp
+        port: 80
+        jump: ACCEPT
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Save iptables rules
+      iptables_persistent:
+        state: present
